@@ -2,9 +2,8 @@ name: CI/CD Pipeline
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
+    tags:
+      - 'v*.*.*'
 
 jobs:
   lint:
@@ -54,5 +53,12 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - uses: actions/checkout@v4
+      - name: Get version from git tag
+        id: get_version
+        run: |
+          VERSION=$(git describe --tags --abbrev=0 || echo "v0.0.0")
+          echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Deploy scripts
-        run: echo "Deploy your scripts here (e.g., upload to server, AWS, etc.)"
+        run: |
+          echo "Deploying version $VERSION"
+          # Deploy your scripts here, using $VERSION if needed
