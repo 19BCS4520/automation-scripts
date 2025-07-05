@@ -66,12 +66,12 @@ jobs:
           fi
 
   notify-on-failure:
-    if: failure()
-    needs: [lint, unit-test, integration-test, deploy]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Send Telegram Notification
-        run: |
-          curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
-          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="🚨 GitHub CI/CD pipeline failed for branch *${{ github.ref_name }}* in repo *${{ github.repository }}*. Check Actions tab for details."
+  if: failure()
+  needs: [lint, unit-test, integration-test, deploy]
+  runs-on: ubuntu-latest
+  steps:
+    - name: Send Telegram Notification
+      run: |
+        curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
+        -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+        -d text="🚨 GitHub CI/CD pipeline failed for branch *${{ github.ref_name }}* in repo *${{ github.repository }}*. Check Actions tab for details."
