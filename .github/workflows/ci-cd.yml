@@ -67,3 +67,12 @@ jobs:
             echo "🚨 Deploying to Production Server"
             # Your production deploy commands
           fi
+  notify-on-failure:
+    if: failure()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram alert on failure
+        run: |
+          curl -s -X POST https://api.telegram.org/bot8186552300:AAGY4fNZhDTE7QyBeHl04cAdLwedSfEDuos/sendMessage \
+          -d chat_id=1039197720 \
+          -d text="🚨 CI/CD Pipeline Failed in repo: ${{ github.repository }} on branch: ${{ github.ref }}. Check GitHub Actions for details."
