@@ -68,13 +68,14 @@ jobs:
             # Your production deploy commands
           fi
 
-  notify-on-failure:
+    notify-on-failure:
     if: failure()
-    needs: [lint, unit-test, integration-test]
+    needs: [lint, unit-test, integration-test, deploy]
     runs-on: ubuntu-latest
     steps:
       - name: Send Telegram Notification
         run: |
           curl -s -X POST https://api.telegram.org/bot${{ secrets.TELEGRAM_BOT_TOKEN }}/sendMessage \
-          -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
-          -d text="❌ CI/CD pipeline failed in one of the stages. Please check GitHub Actions."
+            -d chat_id=${{ secrets.TELEGRAM_CHAT_ID }} \
+            -d text="🚨 CI/CD pipeline failed in one of the stages. Please check GitHub Actions logs."
+
