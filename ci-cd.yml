@@ -60,5 +60,5 @@ jobs:
           echo "VERSION=$VERSION" >> $GITHUB_ENV
       - name: Deploy scripts
         run: |
-          echo "Deploying version $VERSION"
+          echo "Deploying version1 $VERSION"
           # Deploy your scripts here, using $VERSION if needed
